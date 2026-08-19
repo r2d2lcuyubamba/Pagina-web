@@ -903,18 +903,20 @@ img.marco-equipo{ aspect-ratio:auto; height:auto; }
 }
 .meta-noticia{ margin-top:16px; color:#C9DCEF; font-size:.94rem; }
 
+.articulo-noticia{ padding-bottom:80px; }
 .cuerpo-articulo{ max-width:800px; }
 .foto-articulo{
-  margin:-56px auto 34px; position:relative; z-index:2;
+  margin:-56px auto 40px; position:relative; z-index:2;
   border-radius:18px; overflow:hidden; box-shadow:var(--sombra);
   border:6px solid #fff; outline:1px solid #E5EBF1;
 }
 .foto-articulo img{ width:100%; height:auto; display:block; }
-.texto-articulo{ padding-top:10px; }
-.texto-articulo p{ margin-bottom:18px; color:var(--gris); font-size:1.03rem; line-height:1.8; }
+.texto-articulo{ padding-top:16px; }
+.texto-articulo p{ margin-bottom:26px; color:var(--gris); font-size:1.06rem; line-height:1.9; }
 .texto-articulo p:last-child{ margin-bottom:0; }
-.fin-articulo{ margin-top:40px; padding-top:28px; border-top:1px solid #E5EBF1; text-align:center; }
+.fin-articulo{ margin-top:48px; padding-top:32px; border-top:1px solid #E5EBF1; text-align:center; }
 
 @media (max-width:820px){
   .foto-articulo{ margin-top:-40px; }
+  .articulo-noticia{ padding-bottom:56px; }
 }
