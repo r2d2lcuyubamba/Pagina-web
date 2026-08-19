@@ -1,0 +1,9 @@
+# Bloquea el acceso web directo a los archivos de datos (usuarios y noticias).
+# Estos archivos solo los lee PHP desde el servidor, nunca el navegador.
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+</IfModule>

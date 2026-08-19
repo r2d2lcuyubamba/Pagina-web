@@ -1,2 +1,13 @@
+# Contador de visitas (se genera solo en el servidor)
 visitas.txt
+
+# Datos de la sección de noticias que se crean en producción:
+# la cuenta del personal y las noticias publicadas NO deben subirse al repositorio.
+panel/datos/usuarios.json
+panel/datos/noticias.json
+
+# Imágenes subidas desde el panel (van directo al servidor, no al repositorio)
+img/noticias/*
+!img/noticias/.gitkeep
+
 .DS_Store
