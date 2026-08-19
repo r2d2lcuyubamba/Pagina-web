@@ -920,3 +920,57 @@ img.marco-equipo{ aspect-ratio:auto; height:auto; }
   .foto-articulo{ margin-top:-40px; }
   .articulo-noticia{ padding-bottom:56px; }
 }
+
+
+/* ============================================================
+   CARRUSEL DE IMÁGENES (portada, arriba del banner)
+   ============================================================ */
+.carrusel{
+  position:relative; width:100%;
+  aspect-ratio:1600/600; max-height:560px;
+  overflow:hidden; background:var(--azul-noche);
+}
+.carrusel-pista{ position:absolute; inset:0; }
+.carrusel-slide{
+  position:absolute; inset:0; opacity:0;
+  transition:opacity .8s ease; pointer-events:none;
+}
+.carrusel-slide.activa{ opacity:1; pointer-events:auto; }
+.carrusel-slide img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+/* Flechas */
+.carrusel-flecha{
+  position:absolute; top:50%; transform:translateY(-50%);
+  z-index:3; width:48px; height:48px; border-radius:50%;
+  background:rgba(2,32,63,.4); border:1.5px solid rgba(255,255,255,.55);
+  color:#fff; font-size:1.7rem; line-height:1; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  font-family:var(--f-texto); transition:background .2s, transform .15s;
+  backdrop-filter:blur(4px);
+}
+.carrusel-flecha:hover{ background:var(--celeste); transform:translateY(-50%) scale(1.06); }
+.carrusel-flecha.prev{ left:18px; }
+.carrusel-flecha.next{ right:18px; }
+.carrusel-flecha:focus-visible{ outline:2px solid #fff; outline-offset:3px; }
+
+/* Puntos indicadores */
+.carrusel-puntos{
+  position:absolute; left:0; right:0; bottom:16px; z-index:3;
+  display:flex; justify-content:center; gap:10px;
+}
+.carrusel-puntos button{
+  width:11px; height:11px; border-radius:50%; cursor:pointer; padding:0;
+  background:rgba(255,255,255,.45); border:none; transition:background .2s, transform .2s;
+}
+.carrusel-puntos button:hover{ background:rgba(255,255,255,.8); }
+.carrusel-puntos button.activo{ background:#fff; transform:scale(1.25); }
+.carrusel-puntos button:focus-visible{ outline:2px solid #fff; outline-offset:3px; }
+
+@media (max-width:700px){
+  .carrusel{ aspect-ratio:3/2; max-height:none; }
+  .carrusel-flecha{ width:40px; height:40px; font-size:1.4rem; }
+  .carrusel-flecha.prev{ left:10px; } .carrusel-flecha.next{ right:10px; }
+}
+@media (prefers-reduced-motion: reduce){
+  .carrusel-slide{ transition:none; }
+}

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="estilos.css?v=4">
+<link rel="stylesheet" href="estilos.css?v=5">
 </head>
 <body>
 
@@ -34,6 +34,69 @@
     </ul>
   </nav>
 </header>
+
+<!-- ==================== CARRUSEL DE IMÁGENES ====================
+     Para cambiar una imagen: reemplaza el archivo dentro de img/carrusel/
+     manteniendo el mismo nombre (o edita el src). Tamaño ideal: 1600 x 600 px. -->
+<section class="carrusel" id="carrusel" aria-label="Imágenes destacadas del CETPRO César Vallejo" aria-roledescription="carrusel">
+  <div class="carrusel-pista">
+    <div class="carrusel-slide activa"><img src="img/carrusel/slide1-institucional.jpg" alt="CETPRO César Vallejo — institución"></div>
+    <div class="carrusel-slide"><img src="img/carrusel/slide2-estilismo.jpg" alt="Programa de Estilismo" loading="lazy"></div>
+    <div class="carrusel-slide"><img src="img/carrusel/slide3-panificacion.jpg" alt="Programa de Panificación industrial" loading="lazy"></div>
+    <div class="carrusel-slide"><img src="img/carrusel/slide4-programacion.jpg" alt="Programa de Programación de sistemas de información" loading="lazy"></div>
+    <div class="carrusel-slide"><img src="img/carrusel/slide5-patronaje.jpg" alt="Programa de Patronaje" loading="lazy"></div>
+    <div class="carrusel-slide"><img src="img/carrusel/slide6-electronica.jpg" alt="Programa de Mantenimiento de sistemas electrónicos" loading="lazy"></div>
+    <div class="carrusel-slide"><img src="img/carrusel/slide7-almacenamiento.jpg" alt="Programa de Control en procesos de almacenamiento" loading="lazy"></div>
+    <div class="carrusel-slide"><img src="img/carrusel/slide8-administrativo.jpg" alt="Programa de Apoyo administrativo" loading="lazy"></div>
+  </div>
+  <button class="carrusel-flecha prev" type="button" aria-label="Imagen anterior">&#8249;</button>
+  <button class="carrusel-flecha next" type="button" aria-label="Imagen siguiente">&#8250;</button>
+  <div class="carrusel-puntos" role="tablist" aria-label="Seleccionar imagen"></div>
+</section>
+
+<script>
+/* Carrusel de portada: autoavance, flechas, puntos y pausa al pasar el mouse. */
+(function(){
+  const car = document.getElementById('carrusel');
+  if(!car) return;
+  const slides = Array.from(car.querySelectorAll('.carrusel-slide'));
+  const puntos = car.querySelector('.carrusel-puntos');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let actual = 0, timer = null;
+  const INTERVALO = 5000;
+
+  // Crear un punto por cada imagen
+  slides.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.setAttribute('role','tab');
+    b.setAttribute('aria-label', 'Ir a la imagen ' + (i+1));
+    b.addEventListener('click', () => { ir(i); reiniciar(); });
+    puntos.appendChild(b);
+  });
+  const bolitas = Array.from(puntos.children);
+
+  function ir(i){
+    slides[actual].classList.remove('activa');
+    bolitas[actual].classList.remove('activo');
+    actual = (i + slides.length) % slides.length;
+    slides[actual].classList.add('activa');
+    bolitas[actual].classList.add('activo');
+  }
+  function siguiente(){ ir(actual + 1); }
+  function anterior(){ ir(actual - 1); }
+  function arrancar(){ if(!reduce){ timer = setInterval(siguiente, INTERVALO); } }
+  function parar(){ if(timer){ clearInterval(timer); timer = null; } }
+  function reiniciar(){ parar(); arrancar(); }
+
+  bolitas[0].classList.add('activo');
+  car.querySelector('.next').addEventListener('click', () => { siguiente(); reiniciar(); });
+  car.querySelector('.prev').addEventListener('click', () => { anterior(); reiniciar(); });
+  car.addEventListener('mouseenter', parar);
+  car.addEventListener('mouseleave', arrancar);
+  arrancar();
+})();
+</script>
 
 <!-- ==================== BANNER ==================== -->
 <section class="hero" id="inicio">
