@@ -15,7 +15,7 @@ $cuerpo   = trim($_POST['cuerpo'] ?? '');
 
 // Validación mínima
 if ($titulo === '' || $cuerpo === '') {
-    exit('Faltan datos obligatorios (título y contenido). Vuelve atrás e inténtalo de nuevo.');
+    pagina_error('Faltan datos obligatorios: la noticia necesita al menos un título y un contenido.');
 }
 if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha)) {
     $fecha = date('Y-m-d');
@@ -24,7 +24,7 @@ if (!preg_match('/^\d{4}-\d{2}-\d{2}$/', $fecha)) {
 // Imagen subida (opcional)
 $sub = procesar_imagen('imagen');
 if (!$sub['ok']) {
-    exit($sub['error'] . ' Vuelve atrás e inténtalo de nuevo.');
+    pagina_error($sub['error']);
 }
 
 $lista = leer_json(ARCH_NOTICIAS, []);

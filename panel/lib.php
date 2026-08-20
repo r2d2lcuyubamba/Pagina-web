@@ -98,6 +98,22 @@ function redir($url) {
     header('Location: ' . $url);
     exit;
 }
+// Página de error con el mismo estilo del panel; "volver" conserva lo escrito.
+function pagina_error($mensaje) {
+    http_response_code(400);
+    $m = htmlspecialchars($mensaje, ENT_QUOTES, 'UTF-8');
+    echo '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8">'
+       . '<meta name="viewport" content="width=device-width, initial-scale=1.0">'
+       . '<meta name="robots" content="noindex,nofollow"><title>Aviso</title>'
+       . '<link rel="stylesheet" href="panel.css"></head>'
+       . '<body class="pantalla-acceso"><main class="tarjeta-acceso">'
+       . '<div class="logo-acceso"><div class="logo-cv">CV</div><div>'
+       . '<strong>Panel de noticias</strong><small>No se pudo guardar</small></div></div>'
+       . '<div class="alerta-error">' . $m . '</div>'
+       . '<a class="btn-panel" href="#" onclick="history.back();return false;">← Volver e intentar de nuevo</a>'
+       . '</main></body></html>';
+    exit;
+}
 
 // --- Noticias -----------------------------------------------
 function cargar_noticias() {
@@ -158,10 +174,19 @@ function procesar_imagen($campo) {
     }
     $f = $_FILES[$campo];
     if ($f['error'] !== UPLOAD_ERR_OK) {
-        return ['ok' => false, 'error' => 'Hubo un problema al subir la imagen.'];
+        $limite = ini_get('upload_max_filesize');
+        $mapa = [
+            UPLOAD_ERR_INI_SIZE   => "La imagen pesa más de lo que permite el servidor (límite actual: {$limite}). Redúcela (por ejemplo en tinypng.com) o súbela más liviana.",
+            UPLOAD_ERR_FORM_SIZE  => 'La imagen supera el tamaño permitido por el formulario.',
+            UPLOAD_ERR_PARTIAL    => 'La imagen se subió solo a medias (posible corte de conexión). Inténtalo de nuevo.',
+            UPLOAD_ERR_NO_TMP_DIR => 'El servidor no tiene carpeta temporal para subidas. Avisa a tu proveedor de hosting.',
+            UPLOAD_ERR_CANT_WRITE => 'El servidor no pudo escribir la imagen en el disco (revisa permisos o espacio).',
+            UPLOAD_ERR_EXTENSION  => 'Una extensión de PHP bloqueó la subida de la imagen.',
+        ];
+        return ['ok' => false, 'error' => $mapa[$f['error']] ?? 'Hubo un problema al subir la imagen.'];
     }
-    if ($f['size'] > 5 * 1024 * 1024) {
-        return ['ok' => false, 'error' => 'La imagen supera el límite de 5 MB.'];
+    if ($f['size'] > 8 * 1024 * 1024) {
+        return ['ok' => false, 'error' => 'La imagen supera el límite de 8 MB. Redúcela e inténtalo de nuevo.'];
     }
     $info = @getimagesize($f['tmp_name']);
     if ($info === false) {
